@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Details</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .details-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 24px 80px;
+        }
+
+        .details-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .details-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #f5f5f5;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .detail-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .detail-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 12px;
+        }
+
+        .forecast-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .forecast-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: rgba(245, 245, 245, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-navigation">
+        <a href="index.html" class="nav-link" title="Home">
+            <i class="fas fa-home"></i>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="state-map.html" class="nav-link" title="GeoModule">
+            <i class="fas fa-map"></i>
+            <span class="nav-label">GeoModule</span>
+        </a>
+        <a href="pollution-heatmap.html" class="nav-link" title="Pollution Heatmap">
+            <i class="fas fa-thermometer-half"></i>
+            <span class="nav-label">Pollution Heatmap</span>
+        </a>
+    </nav>
+
+    <div class="background"></div>
+    <div class="overlay"></div>
+
+    <main class="details-container">
+        <div class="details-header">
+            <h1 id="city-name">Loading...</h1>
+            <a href="state-map.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Map
+            </a>
+        </div>
+
+        <div id="content-area">
+            <div class="loading">Loading weather and pollution data...</div>
+        </div>
+    </main>
+
+    <script>
+        const API_KEY = '833261a7f072fc10ae775dc08a82e0b5';
+        const cityName = new URLSearchParams(window.location.search).get('city') || 'Agartala';
+        
+        const cities = {
+            'Agartala': { coords: [23.8315, 91.2868], queryName: 'Agartala' },
+            'Udaipur': { coords: [23.53, 91.48], queryName: 'Udaipur' },
+            'Dharmanagar': { coords: [24.3667, 92.1667], queryName: 'Dharmanagar' },
+            'Kailashahar': { coords: [24.33, 92.0167], queryName: 'Kailashahar' }
+        };
+
+        document.getElementById('city-name').textContent = cityName;
+
+        async function loadDetails() {
+            const city = cities[cityName];
+            if (!city) {
+                document.getElementById('content-area').innerHTML = '<div class="loading">City not found</div>';
+                return;
+            }
+
+            try {
+                // Fetch weather data
+                const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city.queryName},IN&appid=${API_KEY}&units=metric`;
+                const weatherResponse = await fetch(weatherUrl);
+                const weatherData = await weatherResponse.json();
+
+                // Fetch forecast
+                const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${city.coords[0]}&lon=${city.coords[1]}&appid=${API_KEY}&units=metric`;
+                const forecastResponse = await fetch(forecastUrl);
+                const forecastData = await forecastResponse.json();
+
+                // Fetch AQI
+                const aqiUrl = `https://api.openweathermap.org/data/2.5/air_pollution?lat=${city.coords[0]}&lon=${city.coords[1]}&appid=${API_KEY}`;
+                const aqiResponse = await fetch(aqiUrl);
+                const aqiData = await aqiResponse.json();
+
+                renderDetails(weatherData, forecastData, aqiData);
+            } catch (error) {
+                document.getElementById('content-area').innerHTML = `<div class="loading">Error loading data: ${error.message}</div>`;
+            }
+        }
+
+        function renderDetails(weather, forecast, aqi) {
+            const hourly = forecast.list?.slice(0, 8) || [];
+            const daily = forecast.list?.filter((item, index) => index % 8 === 0).slice(0, 7) || [];
+            const aqiInfo = aqi.list?.[0] || null;
+            const components = aqiInfo?.components || {};
+
+            const html = `
+                <div class="details-grid">
+                    <div class="detail-card">
+                        <h2>Current Weather</h2>
+                        <div style="font-size: 3rem; margin: 20px 0;">${Math.round(weather.main.temp)}°C</div>
+                        <p><strong>Condition:</strong> ${weather.weather[0]?.description || 'N/A'}</p>
+                        <p><strong>Feels Like:</strong> ${Math.round(weather.main.feels_like)}°C</p>
+                        <p><strong>Humidity:</strong> ${weather.main.humidity}%</p>
+                        <p><strong>Wind:</strong> ${Math.round(weather.wind?.speed * 3.6)} km/h</p>
+                        <p><strong>Visibility:</strong> ${(weather.visibility / 1000).toFixed(1)} km</p>
+                        <p><strong>Pressure:</strong> ${weather.main.pressure} hPa</p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h2>Air Quality (AQI)</h2>
+                        <div style="font-size: 2.5rem; margin: 20px 0; color: ${getAQIColor(aqiInfo?.main?.aqi)};">
+                            ${aqiInfo?.main?.aqi || 'N/A'}
+                        </div>
+                        <p><strong>Category:</strong> ${getAQICategory(aqiInfo?.main?.aqi)}</p>
+                        <p><strong>PM2.5:</strong> ${components.pm2_5 ? components.pm2_5.toFixed(1) : 'N/A'} μg/m³</p>
+                        <p><strong>PM10:</strong> ${components.pm10 ? components.pm10.toFixed(1) : 'N/A'} μg/m³</p>
+                        <p><strong>NO₂:</strong> ${components.no2 ? components.no2.toFixed(1) : 'N/A'} μg/m³</p>
+                        <p><strong>SO₂:</strong> ${components.so2 ? components.so2.toFixed(1) : 'N/A'} μg/m³</p>
+                        <p><strong>O₃:</strong> ${components.o3 ? components.o3.toFixed(1) : 'N/A'} μg/m³</p>
+                    </div>
+
+                    <div class="detail-card">
+                        <h2>Safety Measures</h2>
+                        <div style="line-height: 1.8;">
+                            ${getSafetyMeasures(aqiInfo?.main?.aqi)}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <h2>Hourly Forecast (24 Hours)</h2>
+                    <div class="forecast-list">
+                        ${hourly.map(item => {
+                            const time = new Date(item.dt * 1000).toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', month: 'short', day: 'numeric' });
+                            return `
+                                <div class="forecast-item">
+                                    <span>${time}</span>
+                                    <span>${Math.round(item.main.temp)}°C</span>
+                                    <span>${item.weather[0]?.description || ''}</span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <h2>7-Day Forecast</h2>
+                    <div class="forecast-list">
+                        ${daily.map(item => {
+                            const date = new Date(item.dt * 1000).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+                            return `
+                                <div class="forecast-item">
+                                    <span>${date}</span>
+                                    <span>${Math.round(item.main.temp)}°C</span>
+                                    <span>${item.weather[0]?.description || ''}</span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('content-area').innerHTML = html;
+        }
+
+        function getAQIColor(aqi) {
+            if (!aqi || aqi < 1) return '#cccccc';
+            if (aqi === 1) return '#00e400';
+            if (aqi === 2) return '#ffff00';
+            if (aqi === 3) return '#ff7e00';
+            if (aqi === 4) return '#ff0000';
+            if (aqi === 5) return '#8f3f97';
+            return '#800020';
+        }
+
+        function getAQICategory(aqi) {
+            const categories = { 1: 'Good', 2: 'Moderate', 3: 'Unhealthy (Sensitive)', 4: 'Unhealthy', 5: 'Very Unhealthy' };
+            return categories[aqi] || 'Unknown';
+        }
+
+        function getSafetyMeasures(aqi) {
+            if (!aqi || aqi === 1) return '<p>✅ Air quality is good. Safe for all outdoor activities.</p>';
+            if (aqi === 2) return '<p>⚠️ Air quality is acceptable. Sensitive individuals should reduce outdoor activities.</p>';
+            if (aqi === 3) return '<p>⚠️ Sensitive groups should avoid prolonged outdoor activities. Others should limit strenuous exercise.</p>';
+            if (aqi === 4) return '<p>❌ Everyone should reduce outdoor activities. Sensitive groups should stay indoors.</p>';
+            if (aqi === 5) return '<p>🚨 Health alert! Avoid all outdoor activities. Stay indoors with windows closed.</p>';
+            return '<p>No safety data available.</p>';
+        }
+
+        loadDetails();
+    </script>
+</body>
+</html>
+

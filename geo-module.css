@@ -1,0 +1,311 @@
+/* ============================================
+   GEOMODULE PAGE STYLES - WHITE BACKGROUND
+   ============================================ */
+
+/* Force white background - no inheritance from home page */
+.geo-module-page {
+    background-color: #ffffff !important;
+    background-image: none !important;
+    color: #333333;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* Remove any background overlays */
+.geo-module-page .background,
+.geo-module-page .overlay {
+    display: none !important;
+}
+
+/* Navigation Bar - White theme for GeoModule page */
+.geo-module-page .top-navigation {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    backdrop-filter: none !important;
+}
+
+.geo-module-page .nav-link {
+    color: #333333 !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 70px;
+    padding: 10px 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.geo-module-page .nav-link:hover {
+    background: rgba(0, 0, 0, 0.1) !important;
+    color: #000000 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.geo-module-page .nav-link i {
+    font-size: 1.4rem;
+}
+
+.geo-module-page .nav-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    font-family: 'Roboto', 'Open Sans', sans-serif;
+    letter-spacing: 0.02em;
+    color: inherit;
+}
+
+/* Container */
+.geo-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 20px 20px 20px 20px;
+    background-color: #ffffff !important;
+}
+
+/* Title */
+.geo-title {
+    font-family: 'Roboto', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 32px;
+    padding: 0 20px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+/* Map Container */
+.map-container {
+    width: 100%;
+    height: 90vh;
+    background-color: #ffffff !important;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Ensure Leaflet map doesn't inherit background */
+.leaflet-container {
+    background-color: #ffffff !important;
+    cursor: grab;
+}
+
+.leaflet-container:active {
+    cursor: grabbing;
+}
+
+.leaflet-container .leaflet-interactive {
+    cursor: pointer;
+}
+
+/* Popup Styles - Clean, white, minimal with professional look */
+.leaflet-popup-content-wrapper {
+    background: #ffffff !important;
+    color: #333333 !important;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    border: 1px solid #e0e0e0;
+}
+
+.leaflet-popup-content {
+    margin: 0;
+    padding: 20px;
+    min-width: 200px;
+    max-width: 250px;
+    font-family: 'Roboto', 'Open Sans', sans-serif;
+}
+
+.compact-popup {
+    padding: 16px !important;
+}
+
+.compact-popup .popup-header {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+}
+
+.compact-popup .popup-info {
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.compact-popup .popup-item {
+    padding: 4px 0;
+}
+
+.view-details-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+}
+
+.popup-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.popup-header {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 8px;
+}
+
+.popup-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.popup-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.popup-item:last-child {
+    border-bottom: none;
+}
+
+.popup-label {
+    font-weight: 500;
+    color: #666666;
+    font-size: 0.9rem;
+}
+
+.popup-value {
+    font-weight: 600;
+    color: #333333;
+    font-size: 0.95rem;
+}
+
+.popup-button {
+    margin-top: 12px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #7f5af0, #2cb67d);
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 500;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: block;
+}
+
+.popup-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(127, 90, 240, 0.3);
+}
+
+.popup-loading {
+    text-align: center;
+    padding: 20px;
+    color: #666666;
+    font-style: italic;
+}
+
+.popup-error {
+    text-align: center;
+    padding: 20px;
+    color: #ff4444;
+}
+
+/* Tripura Highlight Label */
+.tripura-label {
+    background: rgba(255, 107, 53, 0.9) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    padding: 4px 8px !important;
+    border-radius: 4px !important;
+    border: 2px solid #ff6b35 !important;
+}
+
+/* Forecast Items */
+.popup-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.forecast-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.forecast-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 8px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
+
+.forecast-item span:first-child {
+    font-weight: 500;
+    color: #666;
+}
+
+.forecast-item span:nth-child(2) {
+    font-weight: 600;
+    color: #333;
+}
+
+.forecast-item span:last-child {
+    color: #666;
+    text-transform: capitalize;
+    font-size: 0.8rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .geo-title {
+        font-size: 1.5rem;
+        margin-bottom: 16px;
+        margin-top: 16px;
+    }
+
+    .map-container {
+        height: 85vh;
+    }
+
+    .geo-container {
+        padding: 10px 10px 10px 10px;
+    }
+
+    .geo-module-page .top-navigation {
+        padding: 16px 12px;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .geo-module-page .nav-link {
+        min-width: 60px;
+        padding: 8px 10px;
+        gap: 4px;
+    }
+
+    .geo-module-page .nav-link i {
+        font-size: 1.2rem;
+    }
+
+    .geo-module-page .nav-label {
+        font-size: 0.7rem;
+    }
+}
+

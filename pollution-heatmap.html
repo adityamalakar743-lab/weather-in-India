@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pollution Heatmap - Tripura</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="geo-module.css">
+    <link rel="stylesheet" href="pollution-heatmap.css">
+</head>
+<body class="geo-module-page">
+    <!-- Navigation Bar -->
+    <nav class="top-navigation">
+        <a href="index.html" class="nav-link" title="Home">
+            <i class="fas fa-home"></i>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="state-map.html" class="nav-link" title="GeoModule">
+            <i class="fas fa-map"></i>
+            <span class="nav-label">GeoModule</span>
+        </a>
+        <a href="pollution-heatmap.html" class="nav-link" title="Pollution Heatmap">
+            <i class="fas fa-thermometer-half"></i>
+            <span class="nav-label">Pollution Heatmap</span>
+        </a>
+    </nav>
+
+    <div class="heatmap-container">
+        <h1 class="geo-title">Pollution Heatmap</h1>
+        <div id="heatmap" class="heatmap-map"></div>
+        
+        <!-- Layer Toggle Controls -->
+        <div class="layer-controls">
+            <h3>Layer Controls</h3>
+            <div class="control-item">
+                <input type="checkbox" id="toggle-aqi" checked>
+                <label for="toggle-aqi">AQI Heatmap</label>
+            </div>
+            <div class="control-item">
+                <input type="checkbox" id="toggle-pm25">
+                <label for="toggle-pm25">PM2.5</label>
+            </div>
+            <div class="control-item">
+                <input type="checkbox" id="toggle-pm10">
+                <label for="toggle-pm10">PM10</label>
+            </div>
+        </div>
+        
+        <!-- Pollution Info Card -->
+        <div class="pollution-info-card" id="pollution-info-card">
+            <h3>Pollution Data</h3>
+            <p class="info-placeholder">Click on Tripura to view pollution data</p>
+        </div>
+        
+        <!-- Legend -->
+        <div class="heatmap-legend">
+            <h3>AQI Categories</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #00e400;"></span>
+                    <span class="legend-label">Good (1)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #ffff00;"></span>
+                    <span class="legend-label">Moderate (2)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #ff7e00;"></span>
+                    <span class="legend-label">Unhealthy (Sensitive) (3)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #ff0000;"></span>
+                    <span class="legend-label">Unhealthy (4)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #8f3f97;"></span>
+                    <span class="legend-label">Very Unhealthy (5)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background-color: #800020;"></span>
+                    <span class="legend-label">Hazardous (5+)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet Heat Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+    <script src="pollution-heatmap.js"></script>
+</body>
+</html>
+

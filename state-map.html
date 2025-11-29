@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoModule - Tripura Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="geo-module.css">
+</head>
+<body class="geo-module-page">
+    <!-- Navigation Bar -->
+    <nav class="top-navigation">
+        <a href="index.html" class="nav-link" title="Home">
+            <i class="fas fa-home"></i>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="state-map.html" class="nav-link" title="GeoModule">
+            <i class="fas fa-map"></i>
+            <span class="nav-label">GeoModule</span>
+        </a>
+        <a href="pollution-heatmap.html" class="nav-link" title="Pollution Heatmap">
+            <i class="fas fa-thermometer-half"></i>
+            <span class="nav-label">Pollution Heatmap</span>
+        </a>
+    </nav>
+
+    <div class="geo-container">
+        <h1 class="geo-title">GeoModule</h1>
+        <div id="map" class="map-container"></div>
+    </div>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="geo-module.js"></script>
+</body>
+</html>
+

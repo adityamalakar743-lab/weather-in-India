@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather in India</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="top-navigation">
+        <a href="index.html" class="nav-link" title="Home">
+            <i class="fas fa-home"></i>
+            <span class="nav-label">Home</span>
+        </a>
+        <a href="state-map.html" class="nav-link" title="GeoModule">
+            <i class="fas fa-map"></i>
+            <span class="nav-label">GeoModule</span>
+        </a>
+        <a href="pollution-heatmap.html" class="nav-link" title="Pollution Heatmap">
+            <i class="fas fa-thermometer-half"></i>
+            <span class="nav-label">Pollution Heatmap</span>
+        </a>
+    </nav>
+
+    <div class="background"></div>
+    <div class="overlay"></div>
+
+    <main class="app">
+        <header class="app-header">
+            <h1>Weather in India</h1>
+            <p>Check the latest weather for any Indian state or union territory capital.</p>
+        </header>
+
+        <form id="search-form" class="search-bar">
+            <input type="text" id="city-input" placeholder="Enter city name (e.g., Mumbai)" aria-label="City name" />
+            <button type="submit">Search</button>
+        </form>
+
+        <section id="status-message" class="status-message" role="status"></section>
+
+        <section id="weather-card-container" class="weather-card-container">
+            <!-- The main weather card will be injected here -->
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
