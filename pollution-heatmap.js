@@ -272,15 +272,15 @@ function createHeatmapLayers(aqiDataPoints) {
         return { aqiHeatLayer: null, pm25HeatLayer: null, pm10HeatLayer: null };
     }
 
-    // AQI heatmap - increase radius and blur for better visibility
+    // AQI heatmap - reduced opacity for subtle appearance
     const aqiPoints = validPoints.map(p => [p.lat, p.lng, p.aqi]);
     aqiHeatLayer = L.heatLayer(aqiPoints, {
-        radius: 80,
-        blur: 50,
+        radius: 60,
+        blur: 40,
         maxZoom: 17,
         max: 5,
         gradient: createAQIGradient(),
-        minOpacity: 0.4
+        minOpacity: 0.2
     });
 
     // PM2.5 heatmap
@@ -291,12 +291,12 @@ function createHeatmapLayers(aqiDataPoints) {
     if (pm25Points.length > 0) {
         const maxPM25 = Math.max(...pm25Points.map(p => p[2]));
         pm25HeatLayer = L.heatLayer(pm25Points, {
-            radius: 80,
-            blur: 50,
+            radius: 60,
+            blur: 40,
             maxZoom: 17,
             max: maxPM25 || 100,
             gradient: { 0.0: '#00e400', 0.5: '#ffff00', 1.0: '#ff0000' },
-            minOpacity: 0.4
+            minOpacity: 0.2
         });
     } else {
         pm25HeatLayer = null;
@@ -310,12 +310,12 @@ function createHeatmapLayers(aqiDataPoints) {
     if (pm10Points.length > 0) {
         const maxPM10 = Math.max(...pm10Points.map(p => p[2]));
         pm10HeatLayer = L.heatLayer(pm10Points, {
-            radius: 80,
-            blur: 50,
+            radius: 60,
+            blur: 40,
             maxZoom: 17,
             max: maxPM10 || 150,
             gradient: { 0.0: '#00e400', 0.5: '#ffff00', 1.0: '#ff0000' },
-            minOpacity: 0.4
+            minOpacity: 0.2
         });
     } else {
         pm10HeatLayer = null;
@@ -373,6 +373,7 @@ async function initHeatmap() {
 
     // Create map focused on East/Northeast India region with full interaction enabled
     // Shows: East India, Northeast India, Myanmar, Bay of Bengal, Bhutan, Nepal, Tibet
+    // Constrained to only show the specified region - no world map, no wrapping
     map = L.map('heatmap', {
         center: [24.0, 90.0], // Center point to frame the specified region
         zoom: 7, // Zoom level to show only the specified region
@@ -383,13 +384,17 @@ async function initHeatmap() {
         doubleClickZoom: true,
         boxZoom: true,
         keyboard: true,
-        minZoom: 2,
-        maxZoom: 19
+        minZoom: 5, // Prevent zooming out beyond the allowed region
+        maxZoom: 19,
+        maxBounds: [[5, 80], [30, 101]], // Constrain to: East India, Northeast India, Myanmar, Bay of Bengal, Bhutan, Eastern Nepal, Adjacent southern China
+        worldCopyJump: false // Prevent map wrapping
     });
 
-    // Add classic OpenStreetMap tile layer (non-controversial, accurate boundaries)
+    // Add OpenStreetMap tile layer with no wrapping
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
+        noWrap: true,
+        continuousWorld: false,
         attribution: "&copy; OpenStreetMap contributors",
     }).addTo(map);
 

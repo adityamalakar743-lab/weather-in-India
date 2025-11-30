@@ -251,12 +251,12 @@
         }
 
         function getSafetyMeasures(aqi) {
-            if (!aqi || aqi === 1) return '<p>✅ Air quality is good. Safe for all outdoor activities.</p>';
-            if (aqi === 2) return '<p>⚠️ Air quality is acceptable. Sensitive individuals should reduce outdoor activities.</p>';
-            if (aqi === 3) return '<p>⚠️ Sensitive groups should avoid prolonged outdoor activities. Others should limit strenuous exercise.</p>';
-            if (aqi === 4) return '<p>❌ Everyone should reduce outdoor activities. Sensitive groups should stay indoors.</p>';
-            if (aqi === 5) return '<p>🚨 Health alert! Avoid all outdoor activities. Stay indoors with windows closed.</p>';
-            return '<p>No safety data available.</p>';
+            if (!aqi || aqi === 1) return '<p>Air quality information is based on API data. Conditions may vary locally.</p>';
+            if (aqi === 2) return '<p>Air quality information is based on API data. Conditions may vary locally.</p>';
+            if (aqi === 3) return '<p>Air quality information is based on API data. Conditions may vary locally.</p>';
+            if (aqi === 4) return '<p>Air quality information is based on API data. Conditions may vary locally.</p>';
+            if (aqi === 5) return '<p>Air quality information is based on API data. Conditions may vary locally.</p>';
+            return '<p>Air quality information is based on API data. Conditions may vary locally.</p>';
         }
 
         loadDetails();

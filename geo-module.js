@@ -47,6 +47,7 @@ let tripuraHighlightLayer;
 function initMap() {
     // Create map focused on East/Northeast India region with full interaction enabled
     // Shows: East India, Northeast India, Myanmar, Bay of Bengal, Bhutan, Nepal, Tibet
+    // Constrained to only show the specified region - no world map, no wrapping
     map = L.map('map', {
         center: [24.0, 90.0], // Center point to frame the specified region
         zoom: 7, // Zoom level to show only the specified region
@@ -57,13 +58,17 @@ function initMap() {
         doubleClickZoom: true,
         boxZoom: true,
         keyboard: true,
-        minZoom: 2,
-        maxZoom: 19
+        minZoom: 5, // Prevent zooming out beyond the allowed region
+        maxZoom: 19,
+        maxBounds: [[5, 80], [30, 101]], // Constrain to: East India, Northeast India, Myanmar, Bay of Bengal, Bhutan, Eastern Nepal, Adjacent southern China
+        worldCopyJump: false // Prevent map wrapping
     });
 
-    // Add classic OpenStreetMap tile layer (non-controversial, accurate boundaries)
+    // Add OpenStreetMap tile layer with no wrapping
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
+        noWrap: true,
+        continuousWorld: false,
         attribution: "&copy; OpenStreetMap contributors",
     }).addTo(map);
 

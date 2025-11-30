@@ -44,11 +44,14 @@ body {
     align-items: center;
     justify-content: center;
     min-width: 70px;
+    max-width: 90px;
     gap: 6px;
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.2);
     flex-shrink: 0;
+    box-sizing: border-box;
+    text-align: center;
 }
 
 .nav-link:hover {
@@ -128,8 +131,17 @@ body {
 
     .nav-link {
         min-width: 60px;
+        max-width: 80px;
         padding: 8px 10px;
         gap: 4px;
+        flex-shrink: 0;
+    }
+
+    .top-navigation {
+        padding: 16px 12px;
+        gap: 8px;
+        justify-content: center;
+        flex-wrap: nowrap;
     }
 
     .nav-link i {
